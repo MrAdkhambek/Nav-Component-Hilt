@@ -7,7 +7,6 @@ import androidx.navigation.NavDirections
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,19 +17,19 @@ class NavigationDispatcher @Inject constructor() {
     private val navigationEmitter: MutableSharedFlow<NavigationCommand> = MutableSharedFlow()
     val navigationCommands: Flow<NavigationCommand> = navigationEmitter.asSharedFlow()
 
-    fun emit(navigationCommand: NavigationCommand) = runBlocking {
+    suspend fun emit(navigationCommand: NavigationCommand) {
         navigationEmitter.emit(navigationCommand)
     }
 
-    fun emit(direction: NavDirections) = emit {
+    suspend fun emit(direction: NavDirections) = emit {
         navigate(direction)
     }
 
-    fun back() = emit {
+    suspend fun back() = emit {
         popBackStack()
     }
 
-    fun back(@IdRes destinationId: Int, inclusive: Boolean) = emit {
+    suspend fun back(@IdRes destinationId: Int, inclusive: Boolean) = emit {
         popBackStack(destinationId, inclusive)
     }
 }
