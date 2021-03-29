@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">NavComponent Dispatch</string>
+    <string name="second_fragment">Second fragment</string>
+</resources>
